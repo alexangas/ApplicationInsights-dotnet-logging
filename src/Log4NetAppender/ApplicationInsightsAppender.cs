@@ -83,6 +83,14 @@ namespace Microsoft.ApplicationInsights.Log4NetAppender
         }
 
         /// <summary>
+        /// Is called when the appender is closed.
+        /// </summary>
+        protected override void OnClose()
+        {
+            this.telemetryClient.Flush();
+        }
+
+        /// <summary>
         /// Append LoggingEvent Application Insights logging framework.
         /// </summary>
         /// <param name="loggingEvent">Events to be logged.</param>
