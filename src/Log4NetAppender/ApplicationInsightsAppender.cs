@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 // <copyright file="ApplicationInsightsAppender.cs" company="Microsoft">
 // Copyright (c) Microsoft Corporation. 
 // All rights reserved.  2013
@@ -56,6 +56,12 @@ namespace Microsoft.ApplicationInsights.Log4NetAppender
         public override void ActivateOptions()
         {
             base.ActivateOptions();
+
+            if (string.IsNullOrEmpty(this.InstrumentationKey))
+            {
+                this.InstrumentationKey = Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration.Active.InstrumentationKey;
+            }
+
             this.telemetryClient = new TelemetryClient();
             if (!string.IsNullOrEmpty(this.InstrumentationKey))
             {
