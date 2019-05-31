@@ -124,7 +124,16 @@ namespace Microsoft.ApplicationInsights.Log4NetAppender
             AddLoggingEventProperty("LoggerName", loggingEvent.LoggerName, metaData);
             AddLoggingEventProperty("ThreadName", loggingEvent.ThreadName, metaData);
 
-            var locationInformation = loggingEvent.LocationInformation;
+            LocationInfo locationInformation = null;
+            try
+            {
+                locationInformation = loggingEvent.LocationInformation;
+            }
+            catch (NullReferenceException)
+            {
+                // Ignores an issue where calling get LocationInformation can throw a NullReferenceException
+            }
+
             if (locationInformation != null)
             {
                 AddLoggingEventProperty("ClassName", locationInformation.ClassName, metaData);
